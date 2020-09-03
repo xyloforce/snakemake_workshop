@@ -6,8 +6,8 @@ rule all:
         
 rule quality_fastq:
     input:
-        R1 = config["fastq_path"] + "{sample}_R1_001.fastq",
-        R2 = config["fastq_path"] + "{sample}_R2_001.fastq"
+        R1 = config["fastq_path"] + wildcards.sample + "_R1_001.fastq",
+        R2 = config["fastq_path"] + wildcards.sample + "_R2_001.fastq"
     output:
         "{sample}.fastq.pdf"
     params:
