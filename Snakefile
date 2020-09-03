@@ -11,22 +11,27 @@ rule quality_fastq:
     output:
         {sample}_{run_number}.fastq.pdf
     params:
-        faqcs = config["faqcs"]
+        faqcs = config["faqcs"],
+        filename = wildcards.sample
     shell:
-        "{params.faqcs} -1 "
+        "{params.faqcs} -1 {input.R1} -2 {input.R2} --prefix {params.filename}"
 
 rule assembly:
     conda:
         envs/spades.yaml
     input:
-        {sample}.fastq
+        {filename}.fastq
     output:
-        {sample}.fasta
+        {filename}.fasta
+    shell:
+        ""
 
 rule quality_assembly:
     conda:
         envs/quast.yaml
     input:
-        {sample}.fasta
+        {filename}.fasta
     output:
-        {sample}.assembly.pdf
+        {filename}.assembly.pdf
+    shell:
+        "quast"
