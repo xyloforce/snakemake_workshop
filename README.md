@@ -1,3 +1,3 @@
 # snakemake_workshop
 
-Launch using `snakemake --use-conda`
+Launch using `snakemake --use-conda --cores all`

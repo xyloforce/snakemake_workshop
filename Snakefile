@@ -6,10 +6,10 @@ rule all:
         
 rule quality_fastq:
     input:
-        R1 = {sample}_R1_{run_number}.fastq,
-        R2 = {sample}_R2_{run_number}.fastq
+        R1 = "{sample}_R1_{run_number}.fastq",
+        R2 = "{sample}_R2_{run_number}.fastq"
     output:
-        {sample}_{run_number}.fastq.pdf
+        "{sample}_{run_number}.fastq.pdf"
     params:
         faqcs = config["faqcs"],
         filename = wildcards.sample
@@ -18,20 +18,20 @@ rule quality_fastq:
 
 rule assembly:
     conda:
-        envs/spades.yaml
+        "envs/spades.yaml"
     input:
-        {filename}.fastq
+        "{filename}.fastq"
     output:
-        {filename}.fasta
+        "{filename}.fasta"
     shell:
         ""
 
 rule quality_assembly:
     conda:
-        envs/quast.yaml
+        "envs/quast.yaml"
     input:
-        {filename}.fasta
+        "{filename}.fasta"
     output:
-        {filename}.assembly.pdf
+        "{filename}.assembly.pdf"
     shell:
         "quast"
