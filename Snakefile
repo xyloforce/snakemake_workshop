@@ -6,8 +6,8 @@ rule all:
         
 rule quality_fastq:
     input:
-        R1 = "{sample}_R1_{run_number}.fastq",
-        R2 = "{sample}_R2_{run_number}.fastq"
+        R1 = "{sample}_R1_001.fastq",
+        R2 = "{sample}_R2_001.fastq"
     output:
         "{sample}_{run_number}.fastq.pdf"
     params:
