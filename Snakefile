@@ -9,7 +9,7 @@ rule quality_fastq:
         R1 = "{sample}_R1_001.fastq",
         R2 = "{sample}_R2_001.fastq"
     output:
-        "{sample}_{run_number}.fastq.pdf"
+        "{sample}.fastq.pdf"
     params:
         faqcs = config["faqcs"],
         filename = wildcards.sample
