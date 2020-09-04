@@ -1,9 +1,5 @@
 configfile: "config.yaml"
     
-rule all:
-    input:
-        {sample}.assembly.pdf #FIXME : check quast output
-        
 rule quality_fastq:
     input:
         R1 = config["fastq_path"] + "{sample}_R1_001.fastq",
