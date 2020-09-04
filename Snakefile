@@ -12,22 +12,36 @@ rule quality_fastq:
     shell:
         "{params.faqcs} -1 {input.R1} -2 {input.R2} --prefix {params.prefix} -d ."
 
-#rule assembly:
-    #conda:
-        #"envs/spades.yaml"
-    #input:
-        #"{filename}.fastq"
-    #output:
-        #"{filename}.fasta"
-    #shell:
-        #""
+rule assembly:
+    conda:
+        "envs/spades.yaml"
+    input:
+        R1 = config["fastq_path"] + "{sample}_R1_001.fastq.gz",
+        R2 = config["fastq_path"] + "{sample}_R2_001.fastq.gz"
+    output:
+        "{sample}.fasta"
+    params:
+        prefix = lambda wildcards: wildcards.sample
+    log: "spades_{sample}.log"
+    threads: 6
+    shell:
+        """
+        spades.py -o . -1 {input.R1} -2 {input.R2} > {log}
+        mv scaffolds.fasta {params.prefix}.fasta
+        """
 
-#rule quality_assembly:
-    #conda:
-        #"envs/quast.yaml"
-    #input:
-        #"{filename}.fasta"
-    #output:
-        #"{filename}.assembly.pdf"
-    #shell:
-        #"quast"
+rule quality_assembly:
+    conda:
+        "envs/quast.yaml"
+    input:
+        genome = "{sample}.fasta",
+        reference = config["reference_genome"]
+    output:
+        "{sample}.assembly_report.pdf"
+    params:
+        prefix = lambda wildcards: wildcards.sample
+    shell:
+        """
+        quast -o . {input.genome} -r {input.reference}
+        mv report.pdf {output}
+        """
