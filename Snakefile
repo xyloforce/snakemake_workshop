@@ -8,7 +8,6 @@ rule quality_fastq:
     input:
         R1 = config["fastq_path"] + "{sample}_R1_001.fastq",
         R2 = config["fastq_path"] + "{sample}_R2_001.fastq"
-        lambda wildcards: wildcards.sample
     output:
         "{sample}.fastq.pdf"
     params:
