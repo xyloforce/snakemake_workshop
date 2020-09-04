@@ -2,15 +2,15 @@ configfile: "config.yaml"
     
 rule quality_fastq:
     input:
-        R1 = config["fastq_path"] + "{sample}_R1_001.fastq",
-        R2 = config["fastq_path"] + "{sample}_R2_001.fastq"
+        R1 = config["fastq_path"] + "{sample}_R1_001.fastq.gz",
+        R2 = config["fastq_path"] + "{sample}_R2_001.fastq.gz"
     output:
-        "{sample}.fastq.pdf"
+        "{sample}_qc_report.pdf"
     params:
         faqcs = config["faqcs"],
-        filename = lamba wildcards: wildcards.sample
+        prefix = lambda wildcards: wildcards.sample
     shell:
-        "{params.faqcs} -1 {input.R1} -2 {input.R2} --prefix {params.filename}"
+        "{params.faqcs} -1 {input.R1} -2 {input.R2} --prefix {params.prefix} -d ."
 
 #rule assembly:
     #conda:
