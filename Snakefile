@@ -8,7 +8,7 @@ rule quality_fastq:
         "{sample}.fastq.pdf"
     params:
         faqcs = config["faqcs"],
-        filename = wildcards.sample
+        filename = lamba wildcards: wildcards.sample
     shell:
         "{params.faqcs} -1 {input.R1} -2 {input.R2} --prefix {params.filename}"
 
